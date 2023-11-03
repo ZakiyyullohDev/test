@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo List</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <input type="text" id="taskInput" placeholder="Yangi vazifa...">
+    <button id="addTask">Qo'shish</button>
+    <ul id="taskList"></ul>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const taskInput = document.getElementById("taskInput");
+    const addTaskButton = document.getElementById("addTask");
+    const taskList = document.getElementById("taskList");
+
+    // Local Storage'dan saqlangan vazifalarni olish
+    const storedTasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+    // Sahifani yuklab, saqlangan vazifalarni ko'rsatish
+    for (const task of storedTasks) {
+        addTaskToDOM(task);
+    }
+
+    // Vazifa qo'shish tugmasi bosilganda
+    addTaskButton.addEventListener("click", function() {
+        const newTask = taskInput.value;
+        if (newTask.trim() === "") return;
+
+        storedTasks.push(newTask);
+        localStorage.setItem("tasks", JSON.stringify(storedTasks));
+
+        addTaskToDOM(newTask);
+        taskInput.value = "";
+    });
+
+    // Vazifani DOM-ga qo'shish
+    function addTaskToDOM(task) {
+        const listItem = document.createElement("li");
+        listItem.textContent = task;
+        taskList.appendChild(listItem);
+    }
+});
+
+    </script>
+</body>
+</html>
